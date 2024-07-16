@@ -1,19 +1,12 @@
 # Study project
 
-
-
-
-![шах](./src/image/spacechess.svg)
-
+![img](./src/image/chessbw.jpeg)
 
 - List
 1. =
 2. ==
 
-
 _Italic_
 **Bold**
 
-
 `"Hello World!"`
-[астронавт](./src/image/astron.svg)
