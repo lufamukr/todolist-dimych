@@ -1,0 +1,35 @@
+.App {
+  padding: 30px;
+  display: flex;
+}
+
+.App > div {
+  margin-right: 50px;
+}
+
+.error {
+  border: 2px solid red;
+}
+
+.error-msg {
+  color: red;
+}
+
+.active-filter {
+  background-color: teal;
+}
+
+.is-done {
+  opacity: 0.5;
+}
+
+
+
+
+
+
+
+
+
+
+
