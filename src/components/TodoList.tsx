@@ -9,10 +9,10 @@ export type TasksPropsType = {
 
 type TodoListPropsType = {
   tasks: Array<TasksPropsType>;
-  removeLi: (id: string) => void;
+  removeLi: (id: string, todoId: string) => void;
   changeFilter: (value: FilterPropsType, todolistsId: string) => void;
-  addTask: (title: string) => void;
-  taskStatus: (taskId: string, isDoneIs: boolean) => void;
+  addTask: (title: string, todoId: string) => void;
+  taskStatus: (taskId: string, isDoneIs: boolean, todoId: string) => void;
   filter: FilterPropsType;
   todoTitle: string;
   idTodolists: string;
@@ -40,7 +40,7 @@ export function TodoList(props: TodoListPropsType) {
     setError(null);
     if (e.key === "Enter") {
       if (newTaskTitle.trim() !== "") {
-        props.addTask(newTaskTitle.trim());
+        props.addTask(newTaskTitle.trim(), props.idTodolists);
         setNewTaskTitle("");
       } else {
         setError("Field is required");
@@ -61,7 +61,7 @@ export function TodoList(props: TodoListPropsType) {
         <button
           onClick={() => {
             if (newTaskTitle.trim() !== "") {
-              props.addTask(newTaskTitle.trim());
+              props.addTask(newTaskTitle.trim(), props.idTodolists);
               setNewTaskTitle("");
             } else {
               setError("Field is required");
@@ -75,7 +75,7 @@ export function TodoList(props: TodoListPropsType) {
       <ul>
         {props.tasks.map((t) => {
           const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            props.taskStatus(t.id, e.currentTarget.checked);
+            props.taskStatus(t.id, e.currentTarget.checked, props.idTodolists);
           };
 
           return (
@@ -88,7 +88,7 @@ export function TodoList(props: TodoListPropsType) {
               <span>{t.title}</span>
               <button
                 onClick={() => {
-                  props.removeLi(t.id);
+                  props.removeLi(t.id, props.idTodolists);
                 }}
               >
                 x
