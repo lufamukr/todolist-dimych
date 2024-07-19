@@ -15,6 +15,7 @@ let todolistId1 = v1();
 let todolistId2 = v1();
 
 function App() {
+
   let [todolists, setTodolists] = useState<Array<TodolistsType>>([
     { id: todolistId1, title: "What", filter: "active" },
     { id: todolistId2, title: "what2", filter: "completed" },
@@ -75,6 +76,13 @@ function App() {
     }
   }
 
+  const removeTodolist = (idTodo: string) => {
+    let filteredTodolist = todolists.filter((f) => f.id !== idTodo);
+    setTodolists(filteredTodolist);
+    delete currTasks[idTodo];
+    setTasks({...currTasks});
+  }
+
   return (
     <div className="App">
       {todolists.map((m) => {
@@ -93,6 +101,7 @@ function App() {
 
         return (
           <TodoList
+            removeTodolist={removeTodolist}
             tasks={tasksForTodoList}
             key={m.id}
             removeLi={removeLi}
@@ -109,7 +118,7 @@ function App() {
   );
 }
 
-// 5 todolist for students 05 --- 42min : 52sec
+// 06 todolist for students start
 
 export default App;
 
