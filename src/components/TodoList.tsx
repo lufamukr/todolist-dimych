@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { FilterPropsType } from "../App";
 import { AddItemForm } from "./AddItemForm";
+import { EditableSpan } from "./EditableSpan";
 
 export type TasksPropsType = {
   id: string;
@@ -57,7 +58,7 @@ export function TodoList(props: TodoListPropsType) {
                 onChange={onChangeHandler}
                 checked={t.isDone}
               />{" "}
-              <span>{t.title}</span>
+              <EditableSpan title={t.title}/>
               <button
                 onClick={() => {
                   props.removeLi(t.id, props.idTodolists);
@@ -92,5 +93,4 @@ export function TodoList(props: TodoListPropsType) {
     </div>
   );
 }
-
 

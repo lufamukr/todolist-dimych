@@ -53,4 +53,3 @@ export function AddItemForm(props: AddItemFormType) {
   )
 }
 
-// 06 todolist for students 14min
