@@ -15,13 +15,17 @@ type TodolistsType = {
 let todolistId1 = v1();
 let todolistId2 = v1();
 
+type TaskStateType = {
+  [key: string]: Array<TasksPropsType>
+}
+
 function App() {
   let [todolists, setTodolists] = useState<Array<TodolistsType>>([
     { id: todolistId1, title: "What", filter: "all" },
     { id: todolistId2, title: "what2", filter: "all" },
   ]);
 
-  let [currTasks, setTasks] = useState({
+  let [currTasks, setTasks] = useState<TaskStateType>({
     [todolistId1]: [
       { id: v1(), title: "HTML", isDone: true },
       { id: v1(), title: "CSS", isDone: true },
@@ -78,10 +82,18 @@ function App() {
     setTasks({ ...currTasks });
   };
 
+  function addTodolist(title: string) {
+    let todolist:TodolistsType = { id: v1(), title: title, filter: "all" };
+    setTodolists([todolist, ...todolists]);
+    setTasks({...currTasks,
+      [todolist.id]: []
+    })
+  }
+
   return (
     <div className="App">
 
-      <AddItemForm addItem={() => {}} />
+      <AddItemForm addItem={addTodolist} />
 
       {todolists.map((m) => {
         let tasksForTodoList = currTasks[m.id];
