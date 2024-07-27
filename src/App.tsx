@@ -109,6 +109,28 @@ function App() {
           });
         }
 
+        const changeTaskTitle = (idTask:string, title:string, idTodo:string) => {
+          let todolist = currTasks[idTodo];
+          let task = todolist.find((f) => {
+            return f.id === idTask
+          })
+          if(task) {
+            task.title = title
+            setTasks({...currTasks})
+          }
+
+        }
+
+        const changeTodoTitle = (idTodo:string, title: string) => {
+          let todolist = todolists.find((f)=>{
+            return f.id === idTodo
+          })
+          if(todolist) {
+            todolist.title = title;
+            setTodolists([...todolists])
+          }
+        }
+
         return (
           <TodoList
             removeTodolist={removeTodolist}
@@ -121,6 +143,9 @@ function App() {
             filter={m.filter}
             idTodolists={m.id}
             todoTitle={m.title}
+
+            changeTaskTitle={changeTaskTitle}
+            changeTodoTitle={changeTodoTitle}
           />
         );
       })}
