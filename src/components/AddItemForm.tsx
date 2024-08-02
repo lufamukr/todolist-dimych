@@ -1,4 +1,8 @@
+import Button from '@mui/material/Button';
 import { ChangeEvent, useState } from "react";
+import PlusIcon from "@mui/material/IconButton"
+import { IconButton, TextField } from '@mui/material';
+import AddToPhotosTwoToneIcon from '@mui/icons-material/AddToPhotosTwoTone';
 
 type AddItemFormType = {
   addItem: (title: string) => void;
@@ -37,18 +41,20 @@ export function AddItemForm(props: AddItemFormType) {
 
   return(
     <div>
-    <input
+    <TextField
       value={newTaskTitle}
+      variant="outlined"
+      label={"type value"}
       onChange={inInputAddTitle}
-      className={error ? "error" : ""}
       onKeyUp={onKeyDownHandler}
+      error={!!error}
+      helperText={error}
     />
-    <button
+    <IconButton
       onClick={addTask}
     >
-      +
-    </button>
-    {{ error } && <div className="error-msg">{error}</div>}
+      <AddToPhotosTwoToneIcon fontSize="large">+</AddToPhotosTwoToneIcon>
+    </IconButton>
   </div>
   )
 }
