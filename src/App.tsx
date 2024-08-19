@@ -120,7 +120,7 @@ function App() {
     </Box>
 
     <Container>
-    <Grid container style={ {padding: "15px 15px 15px 0"} }>
+    <Grid container style={ {padding: "45px 15px", paddingLeft: 0} }>
       <AddItemForm addItem={addTodolist} />
     </Grid>
 
@@ -163,7 +163,7 @@ function App() {
 
   return (
     <Grid item>
-      <Paper style={ {padding:"15px", backgroundColor:"info"} }>
+      <Paper style={ {padding:"15px", backgroundColor:"info"} } elevation={8}>
       <TodoList
       removeTodolist={removeTodolist}
       tasks={tasksForTodoList}

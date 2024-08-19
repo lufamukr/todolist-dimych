@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { FilterPropsType } from "../App";
 import { AddItemForm } from "./AddItemForm";
 import { EditableSpan } from "./EditableSpan";
-import { Button, Checkbox, IconButton } from "@mui/material";
+import { Button, ButtonGroup, Checkbox, IconButton } from "@mui/material";
 import { CheckBox, Delete } from "@mui/icons-material";
 
 export type TasksPropsType = {
@@ -51,14 +51,14 @@ export function TodoList(props: TodoListPropsType) {
 
   return (
     <div>
-      <h3>
+      <h3 style={{"fontFamily": "New Amsterdam, sans-serif"}}>
         <EditableSpan title={props.todoTitle} onChange={changeTodolistTitle} />{" "}
         <IconButton onClick={removeTodolist} >
           <Delete>X</Delete>
         </IconButton>
       </h3>
       <AddItemForm addItem={currAddTask} />
-      <ul>
+      <ul  style={{"fontFamily": "Roboto, sans-serif"}}>
         {props.tasks.map((t) => {
           const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
             props.taskStatus(t.id, e.currentTarget.checked, props.idTodolists);
@@ -87,11 +87,9 @@ export function TodoList(props: TodoListPropsType) {
           );
         })}
       </ul>
-      <div>
+      <ButtonGroup variant="text" aria-label="Basic button group" size="small" color="secondary">
         <Button
-          color="success"
           variant={props.filter === "all" ? "contained" : "text"}
-          size={"small"}
           onClick={onAllClickHandler}
         >
           All
@@ -99,20 +97,17 @@ export function TodoList(props: TodoListPropsType) {
         <Button
           color="primary"
           variant={props.filter === "active" ? "contained" : "text"}
-          size={"small"}
           onClick={onActiveClickHandler}
         >
           Active
         </Button>
         <Button
-          color="secondary"
           variant={props.filter === "completed" ? "contained" : "text"}
-          size={"small"}
           onClick={onCompletedClickHandler}
         >
           Completed
         </Button>
-      </div>
+      </ButtonGroup>
     </div>
   );
 }
