@@ -8,10 +8,10 @@ import { AddItemForm } from "./components/AddItemForm";
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/700.css';
 import { AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
-import { Menu, Padding } from "@mui/icons-material";
+import { Menu } from "@mui/icons-material";
 export type FilterPropsType = "all" | "completed" | "active";
 
-type TodolistsType = {
+export type TodolistsType = {
   id: string;
   title: string;
   filter: FilterPropsType;

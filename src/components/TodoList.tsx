@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { FilterPropsType } from "../App";
 import { AddItemForm } from "./AddItemForm";
 import { EditableSpan } from "./EditableSpan";
 import { Button, ButtonGroup, Checkbox, IconButton } from "@mui/material";
-import { CheckBox, Delete } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 
 export type TasksPropsType = {
   id: string;
