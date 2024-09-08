@@ -20,7 +20,7 @@ export type TodolistsType = {
 let todolistId1 = v1();
 let todolistId2 = v1();
 
-type TaskStateType = {
+export type TaskStateType = {
   [key: string]: Array<TasksPropsType>
 }
 
@@ -190,3 +190,7 @@ function App() {
 }
 
 export default App;
+
+{/* 
+  10 todolist 
+  */}
