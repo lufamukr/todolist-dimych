@@ -1,72 +1,189 @@
 import { v1 } from "uuid";
 import { TaskStateType } from "../App";
+import { title } from "process";
+import { TasksPropsType } from "../components/TodoList";
 
 export type RemoveActionType = {
-  type:"REMOVE-TASK";
-  idTask:string;
-  todolistId:string;
-}
+  type: "REMOVE-TASK";
+  payload: {
+    idTask: string;
+    todolistId: string;
+  };
+};
 
 export type AdTaskACType = {
-  type:"ADD-TASK";
-  todolistId:string;
-  title:string;
-}
+  type: "ADD-TASK";
+  payload: {
+    id: string;
+    todolistId: string;
+    title: string;
+  };
+};
 
 export type ChangeTaskStatusType = {
-  type:"CHANGE-TASK-STATUS"; 
-  todolistId:string;
-  taskId:string;
+  type: "CHANGE-TASK-STATUS";
+  payload: {
+    todolistId: string;
+    taskId: string;
+    isDoneIs: boolean;
+  };
+};
+
+export type ChangeTaskTitleType = {
+  type: "CHANGE-TASK-TITLE";
+  payload: {
+    todoId: string;
+    taskId: string;
+    title: string;
+  };
+};
+
+export type addEmptyTasks = {
+  type: "ADD-EMPTY-TASKS";
+  payload: {
+    todoId: string;
+  };
+};
+
+export type AddArrForTodoType = {
+  type: "ADD_TODO";
+  payload: {
+    idTodo: string;
+  };
+};
+
+export type DeleteTodoType = {
+  type: "DELETE_TODO";
+  payload: {
+    idTodo:string
+  }
 }
 
-export type ActionsType = RemoveActionType | AdTaskACType | ChangeTaskStatusType;
+export type ActionsType =
+  | RemoveActionType
+  | AdTaskACType
+  | ChangeTaskStatusType
+  | ChangeTaskTitleType
+  | AddArrForTodoType
+  | DeleteTodoType;
 
-export const tasksReducer = (state:TaskStateType, action:ActionsType):TaskStateType => {
-  switch(action.type) {
-    case "REMOVE-TASK": {
-      const stateCopy = {...state}
-      let tasks = stateCopy[action.todolistId]
-      const filteredTasks = tasks.filter((f)=>{return f.id !== action.idTask})
-      // important я не можу зробити tasks = filteredTask, тому:
-      stateCopy[action.todolistId] = filteredTasks;
-      return {...stateCopy}
-    }
+export const tasksReducer = (
+  state: TaskStateType,
+  action: ActionsType
+): TaskStateType => {
+  switch (action.type) {
+    case "REMOVE-TASK":
+      const stateCopy = { ...state };
+      const currentTasks = stateCopy[action.payload.todolistId];
+      stateCopy[action.payload.todolistId] = currentTasks.filter((f) => {
+        return f.id !== action.payload.idTask;
+      });
+      return stateCopy;
 
     case "ADD-TASK": {
-      const stateCopy = {...state}
-      const tasks = stateCopy[action.todolistId] 
-      const newTask = { id: v1(), title: action.title, isDone: false }
-      const newTasks = [newTask, ...tasks]
-      stateCopy[action.todolistId] = newTasks
-      return {...stateCopy}
+      const stateCopy = { ...state };
+      const currentTasks = stateCopy[action.payload.todolistId];
+      let newTask = {
+        id: action.payload.id,
+        title: action.payload.title,
+        isDone: false,
+      };
+      stateCopy[action.payload.todolistId] = [newTask, ...currentTasks];
+      return stateCopy;
     }
 
     case "CHANGE-TASK-STATUS": {
-      const stateCopy = {...state}
-      const tasks = stateCopy[action.todolistId]
-      const task = tasks.find((f) => {
-        return f.id === action.taskId
-      })
-      if(task) {
-        task.isDone = !task.isDone;
+      const tasks = state[action.payload.todolistId];
+      if (!tasks) {
+        console.error(
+          `Tasks for todolistId ${action.payload.todolistId} not found`
+        );
+        return state; // або обробити це іншим чином
       }
-      return stateCopy
+      const updatedTask = tasks.map((m) => {
+        return m.id === action.payload.taskId
+          ? { ...m, isDone: action.payload.isDoneIs }
+          : m;
+      });
+      return { ...state, [action.payload.todolistId]: updatedTask };
     }
 
-    default: throw new Error("type error")
+    case "CHANGE-TASK-TITLE": {
+      let stateCopy = { ...state };
+      const currentTasks = stateCopy[action.payload.todoId];
+      const updatedTasks = currentTasks.map((task) =>
+        task.id === action.payload.taskId
+          ? { ...task, title: action.payload.title }
+          : task
+      );
+      stateCopy[action.payload.todoId] = updatedTasks;
+
+      return stateCopy;
+    }
+
+    case "ADD_TODO": {
+      // Створюємо копію поточного стану
+      const newState = { ...state };
+      return {
+        [action.payload.idTodo]: [], // Новий тудуліст з порожнім масивом
+        ...newState, // Попередні тудулісти
+      };
+    }
+
+    case "DELETE_TODO": {
+      const { [action.payload.idTodo]: _, ...restState } = state;
+      console.log('Updated state in reducer:', Object.keys(restState).length);
+      return restState;
+    }
+
+    default:
+      throw new Error("type error");
   }
+};
 
-} 
+export const removeTaskAC = (
+  idTask: string,
+  todolistId: string
+): RemoveActionType => {
+  return {
+    type: "REMOVE-TASK",
+    payload: { idTask: idTask, todolistId: todolistId },
+  };
+};
+export const addTaskAC = (title: string, todolistId: string): AdTaskACType => {
+  return {
+    type: "ADD-TASK",
+    payload: { id: v1(), title: title, todolistId: todolistId },
+  };
+};
 
-export const removeTaskAC = (idTask:string, todolistId:string):RemoveActionType => {
-  return {type:"REMOVE-TASK", idTask:idTask, todolistId:todolistId}
-}
+export const changeTaskStatusAC = (
+  taskId: string,
+  isDone: boolean,
+  todolistId: string
+): ChangeTaskStatusType => {
+  return {
+    type: "CHANGE-TASK-STATUS",
+    payload: { todolistId: todolistId, isDoneIs: !isDone, taskId: taskId },
+  };
+};
 
-export const addTaskAC = (title:string, todolistId:string):AdTaskACType => {
-  return {type:"ADD-TASK", title:title, todolistId:todolistId}
-}
+export const changeTaskTitleAC = (
+  todoId: string,
+  taskId: string,
+  title: string
+): ChangeTaskTitleType => {
+  return {
+    type: "CHANGE-TASK-TITLE",
+    payload: { todoId: todoId, taskId: taskId, title: title },
+  };
+};
 
-export const changeTaskStatus = (todolistId:string, taskId:string):ChangeTaskStatusType => {
-  return {type:"CHANGE-TASK-STATUS", todolistId:todolistId, taskId:taskId}
+export const addArrForTodoAC = (idTodo: string): AddArrForTodoType => {
+  return { type: "ADD_TODO", payload: { idTodo } };
+};
+
+export const delTaskForDelTodoAC = (idTodo: string):DeleteTodoType => {
+  return { type: "DELETE_TODO", payload: { idTodo }}
 }
 // AC - action creator

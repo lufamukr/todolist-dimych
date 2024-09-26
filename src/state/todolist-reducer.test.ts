@@ -2,7 +2,7 @@ import { v1 } from "uuid";
 import { ActionType, todoReducer } from "./todolist-reducer";
 import { TodolistsType } from "../App";
 
-const actionMaker = (type:string, payload:{[key:string]:string} ) => {
+const actionMaker = <T extends ActionType['type']>(type: T, payload: Extract<ActionType, { type: T }>['payload']) => {
   return {
     type: type,
     payload: {
@@ -22,7 +22,7 @@ const startState: Array<TodolistsType> = [
 
 test("delete todolist", () => {
 
-  const act = actionMaker("DELETE_TODO", {id:todolistId1})
+  const act:ActionType = actionMaker("DELETE_TODO", { idTodo: todolistId1 })
 
   // const action: ActionType = {
   //   type: "DELETE_TODO",
@@ -40,7 +40,7 @@ test("add todolist", () => {
   const action: ActionType = {
     type: "ADD_TODO",
     payload: {
-      id: v1(),
+      idTodo: v1(),
       title: "new",
       filter: "all",
     },
@@ -56,7 +56,7 @@ test("change title of todolist", () => {
   const action: ActionType = {
     type: "CHANGE_TITLE_TODO",
     payload: {
-      id: todolistId2,
+      idTodo: todolistId2,
       title: "Modified Title",
     },
   };

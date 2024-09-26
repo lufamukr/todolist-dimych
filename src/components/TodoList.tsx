@@ -61,7 +61,7 @@ export function TodoList(props: TodoListPropsType) {
       <ul  style={{"fontFamily": "Roboto, sans-serif"}}>
         {props.tasks.map((t) => {
           const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            props.taskStatus(t.id, e.currentTarget.checked, props.idTodolists);
+            props.taskStatus(t.id, !e.currentTarget.checked, props.idTodolists);
           };
 
           const onChangeTitleHandler = (value: string) => {

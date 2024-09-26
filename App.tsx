@@ -24,7 +24,7 @@ export type TaskStateType = {
   [key: string]: Array<TasksPropsType>
 }
 
-function AppWithReducers() {
+function App() {
   let [todolists, setTodolists] = useState<Array<TodolistsType>>([
     { id: todolistId1, title: "What", filter: "all" },
     { id: todolistId2, title: "what2", filter: "all" },
@@ -189,7 +189,7 @@ function AppWithReducers() {
   );
 }
 
-export default AppWithReducers;
+export default App;
 
 {/* 
   10 todolist 
