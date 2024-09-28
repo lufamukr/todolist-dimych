@@ -101,7 +101,7 @@ function AppCopyForReducer() {
         <AppBar position="static" color={"info"}>
           <Toolbar>
             <IconButton
-              size="large"
+              size="small"
               edge="start"
               color="inherit"
               aria-label="menu"
@@ -122,7 +122,7 @@ function AppCopyForReducer() {
           <AddItemForm addItem={addTodolist} />
         </Grid>
 
-        <Grid container spacing={10}>
+        <Grid container spacing={6}>
           {todolists.map((m) => {
             let tasksForTodoList = currTasks[m.id];
 
@@ -155,7 +155,7 @@ function AppCopyForReducer() {
               <Grid item>
                 <Paper
                   style={{ padding: "15px", backgroundColor: "info" }}
-                  elevation={8}
+                  elevation={4}
                 >
                   <TodoList
                     removeTodolist={removeTodolist}
@@ -185,6 +185,7 @@ export default AppCopyForReducer;
 
 {
   /* 
-  10 todolist 
+  10 todolist  20min 
+  
   */
 }

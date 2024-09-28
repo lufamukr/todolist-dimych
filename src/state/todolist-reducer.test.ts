@@ -48,8 +48,8 @@ test("add todolist", () => {
   const endState = todoReducer(startState, action);
 
   expect(endState.length).toBe(3);
-  expect(endState[2].filter).toBe("all");
-  expect(endState[2].title).toBe("new");
+  expect(endState[0].filter).toBe("all");
+  expect(endState[0].title).toBe("new");
 });
 
 test("change title of todolist", () => {

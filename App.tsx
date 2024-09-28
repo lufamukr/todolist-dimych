@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
-import { TasksPropsType, TodoList } from "./components/TodoList";
+import { TasksPropsType, TodoList } from "./src/components/TodoList";
 import { v1 } from "uuid";
-import { AddItemForm } from "./components/AddItemForm";
+import { AddItemForm } from "./src/components/AddItemForm";
 
 
 import '@fontsource/roboto/400.css';
