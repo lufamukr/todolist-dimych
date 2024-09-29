@@ -1,6 +1,7 @@
 import { v1 } from "uuid";
-import { TodolistsType } from "../App";
-import { FilterPropsType } from "../AppCopyForReducer";
+import { TodolistsType } from "../AppWithRedux";
+import { FilterPropsType } from "../AppWithRedux";
+
 
 export type DeleteTodoType = {
   type: "DELETE_TODO";
@@ -36,7 +37,15 @@ export type ChangeFilterType = {
 
 export type ActionType = DeleteTodoType | AddTodoType | ChangeTitleTodoType | ChangeFilterType;
 
-export const todoReducer = (state:Array<TodolistsType>, action:ActionType):Array<TodolistsType> => {
+export const todolistId1 = v1()
+export const todolistId2 = v1()
+
+let initialState:Array<TodolistsType> = [
+  { id: todolistId1, title: "reducer", filter: "all" },
+  { id: todolistId2, title: "redu2", filter: "all" },
+]
+
+export const todoReducer = (state:Array<TodolistsType> = initialState, action:ActionType):Array<TodolistsType> => {
   switch(action.type) {
     case "DELETE_TODO": 
       const updatedState = state.filter((f) => f.id !== action.payload.idTodo);
@@ -63,7 +72,8 @@ export const todoReducer = (state:Array<TodolistsType>, action:ActionType):Array
       }
 
       default:
-        throw new Error("error error error")
+        // throw new Error("error error error")
+        return state;
   }
 
 }
@@ -72,8 +82,8 @@ export const deleteTodoAC = (idTodo:string):ActionType => {
   return {type:"DELETE_TODO", payload: {idTodo}}
 }
 
-export const addTodoAC = (title: string, idTodo:string):ActionType => {
-  return {type:"ADD_TODO", payload: {idTodo: idTodo, title, filter: 'all'}}
+export const addTodoAC = (title: string):ActionType => {
+  return {type:"ADD_TODO", payload: {idTodo: v1(), title, filter: 'all'}}
 }
 
 export const changeTitleTodoAC = (idTodo: string, title:string):ChangeTitleTodoType => {

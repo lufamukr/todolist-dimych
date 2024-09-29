@@ -2,6 +2,7 @@ import { v1 } from "uuid";
 import { TaskStateType } from "../App";
 import { title } from "process";
 import { TasksPropsType } from "../components/TodoList";
+import { todolistId1, todolistId2 } from "./todolist-reducer";
 
 export type RemoveActionType = {
   type: "REMOVE-TASK";
@@ -67,8 +68,21 @@ export type ActionsType =
   | AddArrForTodoType
   | DeleteTodoType;
 
+  const initialState:TaskStateType = {
+    [todolistId1]: [
+      { id: v1(), title: "HTML", isDone: true },
+      { id: v1(), title: "CSS", isDone: true },
+      { id: v1(), title: "JS + React", isDone: false },
+      { id: v1(), title: "Redux", isDone: false },
+    ],
+    [todolistId2]: [
+      { id: v1(), title: "Water", isDone: true },
+      { id: v1(), title: "Juice", isDone: false },
+    ],
+  }
+
 export const tasksReducer = (
-  state: TaskStateType,
+  state: TaskStateType = initialState,
   action: ActionsType
 ): TaskStateType => {
   switch (action.type) {
@@ -137,7 +151,7 @@ export const tasksReducer = (
     }
 
     default:
-      throw new Error("type error");
+      return state;
   }
 };
 
