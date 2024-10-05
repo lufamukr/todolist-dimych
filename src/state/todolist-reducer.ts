@@ -40,10 +40,7 @@ export type ActionType = DeleteTodoType | AddTodoType | ChangeTitleTodoType | Ch
 export const todolistId1 = v1()
 export const todolistId2 = v1()
 
-let initialState:Array<TodolistsType> = [
-  { id: todolistId1, title: "reducer", filter: "all" },
-  { id: todolistId2, title: "redu2", filter: "all" },
-]
+let initialState:Array<TodolistsType> = []
 
 export const todoReducer = (state:Array<TodolistsType> = initialState, action:ActionType):Array<TodolistsType> => {
   switch(action.type) {
@@ -82,8 +79,8 @@ export const deleteTodoAC = (idTodo:string):ActionType => {
   return {type:"DELETE_TODO", payload: {idTodo}}
 }
 
-export const addTodoAC = (title: string):ActionType => {
-  return {type:"ADD_TODO", payload: {idTodo: v1(), title, filter: 'all'}}
+export const addTodoAC = (title: string, idTodo: string):ActionType => {
+  return {type:"ADD_TODO", payload: {idTodo, title, filter: 'all'}}
 }
 
 export const changeTitleTodoAC = (idTodo: string, title:string):ChangeTitleTodoType => {

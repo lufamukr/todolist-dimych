@@ -68,18 +68,7 @@ export type ActionsType =
   | AddArrForTodoType
   | DeleteTodoType;
 
-  const initialState:TaskStateType = {
-    [todolistId1]: [
-      { id: v1(), title: "HTML", isDone: true },
-      { id: v1(), title: "CSS", isDone: true },
-      { id: v1(), title: "JS + React", isDone: false },
-      { id: v1(), title: "Redux", isDone: false },
-    ],
-    [todolistId2]: [
-      { id: v1(), title: "Water", isDone: true },
-      { id: v1(), title: "Juice", isDone: false },
-    ],
-  }
+  const initialState:TaskStateType = {}
 
 export const tasksReducer = (
   state: TaskStateType = initialState,

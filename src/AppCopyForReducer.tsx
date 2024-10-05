@@ -88,9 +88,8 @@ function AppCopyForReducer() {
     dispatchToTaskReducer(delTaskForDelTodoAC(idTodo))
   };
 
-  function addTodolist(title: string) {
-    const idTodo = v1()
-    const action = addTodoAC(title)
+  function addTodolist(title: string, idTodo:string) {
+    const action = addTodoAC(title, idTodo)
     dispatchToTodolistsReducer(action)
     dispatchToTaskReducer(addArrForTodoAC(idTodo))
   }

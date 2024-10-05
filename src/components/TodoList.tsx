@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import { FilterPropsType } from "../App";
 import { AddItemForm } from "./AddItemForm";
 import { EditableSpan } from "./EditableSpan";
@@ -26,28 +26,43 @@ type TodoListPropsType = {
   changeTodoTitle: (idTodo: string, title: string) => void;
 };
 
-export function TodoList(props: TodoListPropsType) {
-  const onAllClickHandler = () => {
+export const TodoList = React.memo((props: TodoListPropsType) => {
+  console.log('TodoList rendered')
+
+  const onAllClickHandler = useCallback(() => {
     props.changeFilter("all", props.idTodolists);
-  };
-  const onActiveClickHandler = () => {
+  }, [[props.changeFilter, props.idTodolists]]);
+  const onActiveClickHandler = useCallback(() => {
     props.changeFilter("active", props.idTodolists);
-  };
-  const onCompletedClickHandler = () => {
+  }, [[props.changeFilter, props.idTodolists]]);
+  const onCompletedClickHandler = useCallback(() => {
     props.changeFilter("completed", props.idTodolists);
-  };
+  }, [[props.changeFilter, props.idTodolists]]);
 
-  const removeTodolist = () => {
+  const removeTodolist = useCallback(() => {
     props.removeTodolist(props.idTodolists);
-  };
+  }, [props.removeTodolist, props.idTodolists]);
 
-  const currAddTask = (title: string) => {
+  const currAddTask = useCallback((title: string) => {
     props.addTask(title, props.idTodolists);
-  };
+  }, [props.addTask, props.idTodolists]);
 
-  const changeTodolistTitle = (title: string) => {
+  const changeTodolistTitle = useCallback((title: string) => {
     props.changeTodoTitle(props.idTodolists, title);
-  };
+  }, [props.changeTodoTitle, props.idTodolists])
+
+  let tasksForTodoList = props.tasks;
+            
+  if (props.filter === "completed") {
+    tasksForTodoList = tasksForTodoList.filter((t) => {
+      return t.isDone === true;
+    });
+  }
+  if (props.filter === "active") {
+    tasksForTodoList = tasksForTodoList.filter((t) => {
+      return t.isDone === false;
+    });
+  }
 
   return (
     <div>
@@ -58,8 +73,8 @@ export function TodoList(props: TodoListPropsType) {
         </IconButton>
       </h3>
       <AddItemForm addItem={currAddTask} />
-      <ul  style={{"fontFamily": "Roboto, sans-serif"}}>
-        {props.tasks.map((t) => {
+      <ul style={{"fontFamily": "Roboto, sans-serif"}}>
+        {tasksForTodoList.map((t) => {
           const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
             props.taskStatus(t.id, !e.currentTarget.checked, props.idTodolists);
           };
@@ -69,7 +84,7 @@ export function TodoList(props: TodoListPropsType) {
           };
 
           return (
-            <li className={t.isDone ? "is-done" : ""}>
+            <li className={t.isDone ? "is-done" : ""} key={t.id}>
               <Checkbox
                 onChange={onChangeHandler}
                 checked={t.isDone}
@@ -111,3 +126,4 @@ export function TodoList(props: TodoListPropsType) {
     </div>
   );
 }
+)

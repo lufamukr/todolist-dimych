@@ -1,13 +1,15 @@
+import React from "react";
 import { ChangeEvent, useState } from "react";
 import { IconButton, TextField } from '@mui/material';
 import AddToPhotosTwoToneIcon from '@mui/icons-material/AddToPhotosTwoTone';
+import { v1 } from "uuid";
 
 type AddItemFormType = {
-  
-  addItem: (title: string) => void;
+  addItem: (title: string, idTodo: string) => void;
 }
 
-export function AddItemForm(props: AddItemFormType) {
+export const AddItemForm = React.memo((props: AddItemFormType) => {
+  console.log('AddItemForm rendered')
 
   let [newTaskTitle, setNewTaskTitle] = useState("");
 
@@ -17,9 +19,11 @@ export function AddItemForm(props: AddItemFormType) {
 
   let [error, setError] = useState<string | null>(null);
 
+
   const addTask = () => {
     if (newTaskTitle.trim() !== "") {
-      props.addItem(newTaskTitle.trim());
+      const idTask = v1()
+      props.addItem(newTaskTitle.trim(), idTask);
       setNewTaskTitle("");
     } else {
       setError("Field is required");
@@ -27,10 +31,13 @@ export function AddItemForm(props: AddItemFormType) {
   }
 
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
+    if(error !== null) {
+      setError(null);
+    }
     if (e.key === "Enter") {
       if (newTaskTitle.trim() !== "") {
-        props.addItem(newTaskTitle.trim());
+        const idTask = v1()
+        props.addItem(newTaskTitle.trim(), idTask);
         setNewTaskTitle("");
       } else {
         setError("Field is required");
@@ -56,5 +63,5 @@ export function AddItemForm(props: AddItemFormType) {
     </IconButton>
   </div>
   )
-}
+})
 
