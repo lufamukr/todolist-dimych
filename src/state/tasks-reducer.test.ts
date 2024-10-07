@@ -63,13 +63,13 @@ test('correct task should be change status', () => {
     ],
   }
  
-  let endState = tasksReducer(startState, changeTaskStatusAC('todolistId2', false, '2'))
-  expect(endState['todolistId1'].length).toBe(3)
+  let endState = tasksReducer(startState, changeTaskStatusAC('todolistId2', !startState['todolistId2'][1].isDone, '2'))
+  expect(endState['todolistId2'].length).toBe(3)
   expect(endState['todolistId2'][1].title).toBe('milk')
-  expect(endState['todolistId2'][1].isDone).toBe(false)  
+  expect(endState['todolistId2'][1].isDone).toBe(true)  
 
-  endState = tasksReducer(startState, changeTaskStatusAC('todolistId1', false, '2'))
-  expect(endState['todolistId1'][1].title).toBe('JS')
-  expect(endState['todolistId1'][1].isDone).toBeFalsy()
+  endState = tasksReducer(startState, changeTaskStatusAC('todolistId1', true, '1'))
+  expect(endState['todolistId1'][0].title).toBe('CSS')
+  expect(endState['todolistId1'][0].isDone).toBeFalsy()
 
 })

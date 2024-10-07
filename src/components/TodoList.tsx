@@ -4,6 +4,8 @@ import { AddItemForm } from "./AddItemForm";
 import { EditableSpan } from "./EditableSpan";
 import { Button, ButtonGroup, Checkbox, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import { TaskStateType } from "../AppWithRedux";
+import { Task } from "./Task";
 
 export type TasksPropsType = {
   id: string;
@@ -13,16 +15,20 @@ export type TasksPropsType = {
 
 type TodoListPropsType = {
   tasks: Array<TasksPropsType>;
-  removeLi: (id: string, todoId: string) => void;
+
   changeFilter: (value: FilterPropsType, todolistsId: string) => void;
   addTask: (title: string, todoId: string) => void;
-  taskStatus: (taskId: string, isDoneIs: boolean, todoId: string) => void;
+
   filter: FilterPropsType;
   todoTitle: string;
-  idTodolists: string;
-  removeTodolist: (idTodo: string) => void;
 
+  removeTodolist: (idTodo: string) => void;
+  taskStatus: (taskId: string, isDoneIs: boolean, todoId: string) => void;
+  idTodolists: string;
   changeTaskTitle: (idTask: string, title: string, idTodo: string) => void;
+  removeLi: (id: string, todoId: string) => void;
+
+
   changeTodoTitle: (idTodo: string, title: string) => void;
 };
 
@@ -74,33 +80,15 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
       </h3>
       <AddItemForm addItem={currAddTask} />
       <ul style={{"fontFamily": "Roboto, sans-serif"}}>
-        {tasksForTodoList.map((t) => {
-          const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            props.taskStatus(t.id, !e.currentTarget.checked, props.idTodolists);
-          };
-
-          const onChangeTitleHandler = (value: string) => {
-            props.changeTaskTitle(t.id, value, props.idTodolists);
-          };
-
-          return (
-            <li className={t.isDone ? "is-done" : ""} key={t.id}>
-              <Checkbox
-                onChange={onChangeHandler}
-                checked={t.isDone}
-              />{" "}
-              <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
-              <IconButton
-                size="medium"
-                onClick={() => {
-                  props.removeLi(t.id, props.idTodolists);
-                }}
-              >
-                <Delete>x</Delete>
-              </IconButton>
-            </li>
-          );
-        })}
+        {
+        tasksForTodoList.map((t) => {
+            return <Task   taskStatus ={props.taskStatus}
+            idTodolists={props.idTodolists}
+            changeTaskTitle={props.changeTaskTitle}
+            removeLi={props.removeLi}
+            t={t}
+            key={t.id}/>})
+        }
       </ul>
       <ButtonGroup variant="text" aria-label="Basic button group" size="small" color="secondary">
         <Button
@@ -125,5 +113,6 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
       </ButtonGroup>
     </div>
   );
-}
-)
+})
+
+
